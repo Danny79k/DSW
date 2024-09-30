@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\personalController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityLinkController;
@@ -11,6 +12,10 @@ Route::get('/', function () {
 Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
+
+Route::get('/personal', [personalController::class, 'personal'])
+->middleware(['auth', 'verified'])
+->name('personal');
 
 Route::get('/contacts', function() {
     return view('contacts');
