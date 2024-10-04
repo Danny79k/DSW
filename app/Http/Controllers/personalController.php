@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\user;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class personalController extends Controller
+class PersonalController extends Controller
 {
     public function personal()
     {
+        // dd("hola");
         $user = User::find(1);
         $linksPersonal = $user->communityLinks()->paginate(15);
+        // dd($linksPersonal);
         return view('personal', compact("linksPersonal"));
     }
 }
