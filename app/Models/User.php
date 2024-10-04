@@ -45,4 +45,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function communityLinks()
+    {
+        return $this->hasMany(CommunityLink::class);
+    }
 }
