@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <x-community-links :links="$links"/>
+        <x-community-links :links="$links" :channels="$channels" />
     </div>
 </x-app-layout>
 
@@ -14,16 +14,35 @@
 <!-- 
 PREGUNTAS
 
-¿Qué hace la directiva @csrf?
+$channels = Channel::orderBy('title','asc')->get();
+¿Qué hace el código anterior?
 
-esta directiva genera un token oculto para cada sesion activa y se utiliza para porteger los formularios y la informacion introducida en ellos, por ejemplo un maalintencionado podria crear un formulario apuntando a la ruta de post o get de nuestra aplicacion y enviar informacion maliciosa, esta practica se conoce como 'cross-site request forgery'
+recoge y muestra los canales ordenados de manera ascendente por el titulo
 
-¿Qué método se llamará en el controlador CommunityController al enviar el formulario?
+<div class="mb-4">
+<label for="Channel" class="block text-white font-medium">Channel:</label>
+<select
+class="@error('channel_id') is-invalid @enderror mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+name="channel_id">
+<option selected disabled>Pick a Channel...</option>
+@foreach ($channels as $channel)
+<option value="{{ $channel->id }}">
+{{ $channel->title }}
+</option>
+@endforeach
+</select>
+@error('channel_id')
+<span class="text-red-500 mt-2">{{ $message }}</span>
+@enderror
+</div>
 
-se enviaran datos por el metodo post al controlador desde mi formulario, para que no esten a la vista de malintencionados
+este codigo es una funcionalidad nueva de nuestro componente community-add-links es el campo de formulario tipo options donde tenemos que escoger el tipo de lenguaje de programacion para la publicacion del community link
 
-Intenta enviar un enlace. ¿Qué ocurre? Resuélvelo.
 
-The POST method is not supported for route dashboard. Supported methods: GET, HEAD. 
-aparece este mensaje de error, en cuanto el metodo POST no esta suportado, que la ruta de dashboard Route::post no esta definida, tenemos que definir la ruta que devuelve su vista y luego tenemos que definir en el controlador el metodo store que usaremos en la ruta Route::post
+<option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
+{{ $channel->title }}
+</option>
+Explica qué es lo que hace la línea anterior.
+
+esta linea de codigo hace que al darle a submit y al prducirse error se guarde la informacion producida en el campo correspondiente
 -->

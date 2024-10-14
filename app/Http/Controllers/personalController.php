@@ -11,9 +11,11 @@ class PersonalController extends Controller
     public function personal()
     {
         // dd("hola");
-        $user = User::find(1);
+        $user = User::find(Auth::id()); // el metodo Auth::id() devuelve el id de usuario autentificado 
         $linksPersonal = $user->communityLinks()->paginate(15);
         // dd($linksPersonal);
         return view('personal', compact("linksPersonal"));
     }
+
+    
 }
