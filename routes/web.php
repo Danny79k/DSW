@@ -14,12 +14,6 @@ Route::post('/dashboard', [CommunityLinkController::class, 'store'])
 ->middleware(['auth','verified'])
 ->name('dashboard');
 
-Route::post('/dashboard', function() {
-    return redirect('/dashboard')->with('status', 'autorizacion automatica');
-})
-->middleware(['auth','verified'])
-->name('dashboard');
-
 Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');

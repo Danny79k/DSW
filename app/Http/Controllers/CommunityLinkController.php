@@ -41,7 +41,11 @@ class CommunityLinkController extends Controller
         $link->approved = Auth::user()->trusted ?? false;
         $link->user_id = Auth::id();
         $link->save();
-        return back();
+        if (Auth::user()->trusted) {
+            return redirect('/dashboard')->with('approved', 'Link Approved!!');
+        } else {
+            return redirect('/dashboard')->with('notApproved', 'Pending Approve');
+        }
     }
 
     /**
