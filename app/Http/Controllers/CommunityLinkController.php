@@ -42,7 +42,11 @@ class CommunityLinkController extends Controller
         // Si uso CommunityLink::create($data) tengo que declarar user_id y channel_id como $fillable
         $link->user_id = Auth::id();
         $link->save();
-        return back();
+        if (Auth::user()->trusted) {
+            return redirect('/dashboard')->with('approved', 'Link Approved!!');
+        } else {
+            return redirect('/dashboard')->with('notApproved', 'Pending Approve');
+        }
     }
 
     /**
