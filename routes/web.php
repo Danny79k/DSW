@@ -14,7 +14,6 @@ Route::post('/dashboard', [CommunityLinkController::class, 'store'])
 ->middleware(['auth','verified'])
 ->name('dashboard');
 
-
 Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
