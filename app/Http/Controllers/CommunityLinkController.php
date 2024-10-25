@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommunityLink;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Channel;
+
 
 class CommunityLinkController extends Controller
 {
@@ -30,6 +32,15 @@ class CommunityLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+     public function personal()
+    {
+        // dd("hola");
+        $user = Auth::user(); // el metodo Auth::id() devuelve el id de usuario autentificado 
+        $linksPersonal = $user->communityLinks()->paginate(15);
+        // dd($linksPersonal);
+        return view('personal', compact("linksPersonal"));
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -42,9 +53,9 @@ class CommunityLinkController extends Controller
         $link->user_id = Auth::id();
         $link->save();
         if (Auth::user()->trusted) {
-            return redirect('/dashboard')->with('approved', 'Link Approved!!');
+            return back()->with('approved', 'Link Approved!!');
         } else {
-            return redirect('/dashboard')->with('notApproved', 'Pending Approve');
+            return back()->with('notApproved', 'Pending Approve');
         }
     }
 
