@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommunityLink;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Channel;
+use App\Http\Requests\CommunityLinkForm;
 
 class CommunityLinkController extends Controller
 {
@@ -13,8 +16,9 @@ class CommunityLinkController extends Controller
      */
     public function index()
     {
-        $links = CommunityLink::paginate(10);
-        return view('dashboard', compact("links"));
+        $links = CommunityLink::where('approved', 1)->paginate(15);
+        $channels = Channel::orderBy('title','asc')->get();
+        return view('dashboard', compact("links", "channels"));
     }
 
     /**
@@ -28,19 +32,27 @@ class CommunityLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title' => 'required|max:255',
-            'link' => 'required|unique:community_links|url|max:255',
-        ]);
 
+     public function personal()
+    {
+        // dd("hola");
+        $user = Auth::user(); // el metodo Auth::id() devuelve el id de usuario autentificado 
+        $linksPersonal = $user->communityLinks()->paginate(15);
+        // dd($linksPersonal);
+        return view('personal', compact("linksPersonal"));
+    }
+    public function store(CommunityLinkForm $request)
+    {
+        $data = $request->validated();
         $link = new CommunityLink($data);
-        // Si uso CommunityLink::create($data) tengo que declarar user_id y channel_id como $fillable
+        $link->approved = Auth::user()->trusted ?? false;
         $link->user_id = Auth::id();
-        $link->channel_id = 1;
         $link->save();
-        return back();
+        if (Auth::user()->trusted) {
+            return back()->with('approved', 'Link Approved!!');
+        } else {
+            return back()->with('notApproved', 'Pending Approval');
+        }
     }
 
     /**
