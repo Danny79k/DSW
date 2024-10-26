@@ -16,4 +16,6 @@
 PREGUNTAS
 ¿De quién hereda la clase CommunityLinkForm?
 
+la clase communityLinkForm hereda de formRequest
+
 -->
