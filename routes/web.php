@@ -18,9 +18,9 @@ Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
 
-Route::get('/personal', [PersonalController::class, 'personal'])
+Route::get('/mylinks', [CommunityLinkController::class, 'personal'])
 ->middleware(['auth', 'verified'])
-->name('personal');
+->name('mylinks');
 
 Route::get('/contacts', function() {
     return view('contacts');

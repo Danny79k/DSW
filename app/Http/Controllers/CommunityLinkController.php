@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommunityLink;
-use App\Models\User;
+// use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Channel;
@@ -20,6 +20,7 @@ class CommunityLinkController extends Controller
         $channels = Channel::orderBy('title','asc')->get();
         return view('dashboard', compact("links", "channels"));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -35,11 +36,10 @@ class CommunityLinkController extends Controller
 
      public function personal()
     {
-        // dd("hola");
+
         $user = Auth::user(); // el metodo Auth::id() devuelve el id de usuario autentificado 
-        $linksPersonal = $user->communityLinks()->paginate(15);
-        // dd($linksPersonal);
-        return view('personal', compact("linksPersonal"));
+        $linksPersonal = $user->communityLinks()->paginate(10);
+        return view('mylinks', compact("linksPersonal"));
     }
     public function store(CommunityLinkForm $request)
     {
