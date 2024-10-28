@@ -16,11 +16,11 @@ class CommunityLinkController extends Controller
      */
     public function index()
     {
-        $links = CommunityLink::where('approved', 1)->paginate(15);
-        $channels = Channel::orderBy('title','asc')->get();
+        $links = CommunityLink::where('approved', 1)->latest('updated_at')->paginate(15);
+        $channels = Channel::orderBy('title', 'asc')->get();
         return view('dashboard', compact("links", "channels"));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +34,7 @@ class CommunityLinkController extends Controller
      * Store a newly created resource in storage.
      */
 
-     public function personal()
+    public function personal()
     {
 
         $user = Auth::user(); // el metodo Auth::id() devuelve el id de usuario autentificado 
@@ -45,14 +45,20 @@ class CommunityLinkController extends Controller
     {
         $data = $request->validated();
         $link = new CommunityLink($data);
-        $link->approved = Auth::user()->trusted ?? false;
-        $link->user_id = Auth::id();
-        $link->save();
-        if (Auth::user()->trusted) {
-            return back()->with('approved', 'Link Approved!!');
+
+        if ($link->hasAlreadyBeenSubmitted()) {
+            return back();
         } else {
-            return back()->with('notApproved', 'Pending Approval');
+            $link->user_id = Auth::id();
+            $link->approved = Auth::user()->trusted ?? false;
+            $link->save();
+            if (Auth::user()->trusted) {
+                return back()->with('success', 'Link Approved!!');
+            } else {
+                return back()->with('info', 'Pending Approval');
+            }
         }
+
     }
 
     /**
