@@ -40,6 +40,10 @@ class CommunityLinkController extends Controller
      * Store a newly created resource in storage.
      */
 
+    public function hasLiked() {
+        $user = Auth::user();
+    }
+
     public function personal()
     {
 
