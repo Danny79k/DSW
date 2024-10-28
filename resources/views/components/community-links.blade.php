@@ -7,11 +7,11 @@
                 <div class="text-center text-gray-500 dark:text-gray-400">No links found</div>
             @endif
             @foreach ($links as $link)
-                <div class="border-2 p-1 rounded-lg hover:bg-red-600 text-center">{{$link->title}}<span
+                <div class="border-2 p-1 rounded-lg hover:bg-red-600 text-center">{{$link->title}}<a href="/dashboard/{{$link->channel->slug}}"
                         class="inline-block px-2 py-1 text-white text-sm font-semibold rounded"
                         style="background-color: {{ $link->channel->color }}">
                         {{ $link->channel->title }}
-                    </span><br><small class="text-slate-500">Contributed by: {{$link->creator->name}}</small><br><small
+                    </a><br><small class="text-slate-500">Contributed by: {{$link->creator->name}}</small><br><small
                         class="text-slate-500"> {{$link->updated_at->diffForHumans()}}</small></div>
             @endforeach
             {{$links->links()}}

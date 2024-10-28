@@ -18,6 +18,8 @@ Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
 
+Route::get('/dashboard/{channel:slug}', [CommunityLinkController::class, 'index']);
+
 Route::get('/mylinks', [CommunityLinkController::class, 'personal'])
 ->middleware(['auth', 'verified'])
 ->name('mylinks');
