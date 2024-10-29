@@ -23,6 +23,8 @@ Route::get('/dashboard/{channel:slug}', [CommunityLinkController::class, 'index'
 
 Route::get('/dashboard/like/{communityLink}', [CommunityLinkController::class, 'hasLiked']);
 
+Route::get('/dashboard/removeLike/{communityLink}', [CommunityLinkController::class, 'removeLike']);
+
 Route::get('/mylinks', [CommunityLinkController::class, 'personal'])
 ->middleware(['auth', 'verified'])
 ->name('mylinks');

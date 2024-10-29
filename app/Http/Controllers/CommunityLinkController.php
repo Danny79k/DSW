@@ -83,6 +83,14 @@ class CommunityLinkController extends Controller
 
     }
 
+    public function removeLike($communityLink){
+        if ($communityLink->alreadyLiked()){
+            dd("yes");
+        } else {
+            dd("no");
+        }
+    }
+
     /**
      * Display the specified resource.
      */
