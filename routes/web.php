@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ProfileController;
+use App\Models\CommunityLink;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityLinkController;
@@ -20,6 +21,7 @@ Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 
 Route::get('/dashboard/{channel:slug}', [CommunityLinkController::class, 'index']);
 
+Route::get('/dashboard/like/{communityLink}', [CommunityLinkController::class, 'hasLiked']);
 
 Route::get('/mylinks', [CommunityLinkController::class, 'personal'])
 ->middleware(['auth', 'verified'])

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\CommunityLink;
 // use App\Models\User;
+use App\Models\CommunityLinkUsers;
+use Database\Factories\CommunityLinkFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Channel;
 use App\Http\Requests\CommunityLinkForm;
+
 
 class CommunityLinkController extends Controller
 {
@@ -40,8 +43,17 @@ class CommunityLinkController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function hasLiked() {
-        $user = Auth::user();
+    public function hasLiked($communityLink) {
+        $link = CommunityLink::findOrFail($communityLink);
+        $existingLike = $link->likes()->where('user_id', auth()->id())->first();
+        if ($existingLike) {
+           return back();
+        } else {
+            $link->likes()->create([
+                'user_id' => auth()->id(),
+            ]);
+            return back();
+        }
     }
 
     public function personal()
