@@ -60,4 +60,9 @@ class CommunityLink extends Model
     {
         return $this->hasMany(CommunityLinkUsers::class);
     }
+// para saber si se ha dado like
+    public function alreadyLiked()
+    {
+        return $this->where('user_id', auth()->id(), $this->id)->exists();
+    }
 }

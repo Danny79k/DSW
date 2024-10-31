@@ -15,7 +15,7 @@
                     </a><br><small class="text-slate-500">Contributed by: {{$link->creator->name}}</small><br><small
                         class="text-slate-500">
                         {{$link->updated_at->diffForHumans()}}</small>
-                    <div class="flex justify-end"><small>{{ $link->users()->count() }}&nbsplikes</small>&nbsp<a href="{{$link->id->alreadyLiked() ? '/dashboard/like/'.$link->id : 'dashboard/removeLike'.$link->id}}"><svg
+                    <div class="flex justify-end"><small>{{ $link->users()->count() }}&nbsplikes</small>&nbsp<a href="{{$link->alreadyLiked() ? '/dashboard/like/'.$link->id : 'dashboard/removeLike'.$link->id}}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-heart" viewBox="0 0 16 16">
                                 <path

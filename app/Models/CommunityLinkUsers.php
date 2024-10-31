@@ -13,8 +13,5 @@ class CommunityLinkUsers extends Model
         'user_id'
     ];
 
-    public function alreadyLiked()
-    {
-        return $this->where('user_id', auth()->id())->exists();
-    }
+    
 }
