@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommunityLinkUsersController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\ProfileController;
 use GuzzleHttp\Middleware;
@@ -17,6 +18,8 @@ Route::post('/dashboard', [CommunityLinkController::class, 'store'])
 Route::get('/dashboard', [CommunityLinkController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('dashboard');
+
+Route::post('/dashboard/votes/{link}', [CommunityLinkUsersController::class, 'store']);
 
 Route::get('/dashboard/{channel:slug}', [CommunityLinkController::class, 'index']);
 

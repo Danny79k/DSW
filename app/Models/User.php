@@ -21,7 +21,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'trusted',
     ];
 
     /**
@@ -53,6 +52,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     
     public function isTrusted(){
-        return $this->trusted;
+        if($this->trusted == 0)
+        return false;
+    return true;
+    }
+
+    public function votes(){
+        return $this->belongsToMany(CommunityLink::class, 'community_link_users');
+    }
+
+    public function votedFor(CommunityLink $link){
+        return $this->votes->contains($link);
     }
 }
+
+    
