@@ -26,7 +26,7 @@
                         </form>
                     </div>
             @endforeach
-            {{$links->links()}}
+            {{$links->appends($_GET)->links()}}
         </div>
     </div>
 </div>

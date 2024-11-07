@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CommunityLink;
 // use App\Models\User;
 use App\Models\CommunityLinkUsers;
+use App\Queries\CommunityLinkQuery;
 use Database\Factories\CommunityLinkFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,14 +21,17 @@ class CommunityLinkController extends Controller
     public function index(Channel $channel = null)
     {
         if ($channel != null) {
-            $links = $channel->comLinks()->where('approved', 1)->latest('updated_at')->paginate(15);
-            $channels = Channel::orderBy('title', 'asc')->get();
-            return view('dashboard', compact("links", "channels"));
+            $links = (new CommunityLinkQuery())->getByChannel($channel);
+            
         } else {
-            $links = CommunityLink::where('approved', 1)->latest('updated_at')->paginate(15);
-            $channels = Channel::orderBy('title', 'asc')->get();
-            return view('dashboard', compact("links", "channels"));
+            if (request()->exists('popular')) {
+                $links = (new CommunityLinkQuery())->getMostPopular();
+            } else {
+                $links = (new CommunityLinkQuery())->getAll();
+            }
         }
+        $channels = Channel::orderBy('title', 'asc')->get();
+        return view('dashboard', compact("links", "channels"));
     }
 
 
@@ -43,11 +47,12 @@ class CommunityLinkController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function hasLiked($communityLink) {
+    public function hasLiked($communityLink)
+    {
         $link = CommunityLink::findOrFail($communityLink);
         $existingLike = $link->likes()->where('user_id', auth()->id())->first();
         if ($existingLike) {
-           return back();
+            return back();
         } else {
             $link->likes()->create([
                 'user_id' => auth()->id(),
