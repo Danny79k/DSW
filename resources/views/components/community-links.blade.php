@@ -7,6 +7,7 @@
                 <div class="text-center text-gray-500 dark:text-gray-400">No links found</div>
             @endif
             @foreach ($links as $link)
+                    <x-flash-message />
                     <div class="border-2 p-1 rounded-lg hover:bg-red-600 text-center">{{$link->title}}<a
                             href="/dashboard/{{$link->channel->slug}}"
                             class="inline-block px-2 py-1 text-white text-sm font-semibold rounded"
@@ -20,7 +21,7 @@
                             <button type="submit" class="rounded px-4 py-2 {{ Auth::check() && Auth::user()->votedFor($link) ?
                 'bg-green-500 hover:bg-green-600 text-white' :
                 'bg-gray-500 hover:bg-gray-600 text-white'
-                        }} disabled:opacity-50" {{ !Auth::user()->isTrusted() ? 'disabled' : '' }}>
+                                }} disabled:opacity-50" {{ !Auth::user()->isTrusted() ? 'disabled' : '' }}>
                                 {{ $link->users()->count() }}
                             </button>
                         </form>

@@ -21,15 +21,20 @@
                     <x-nav-link :href="route('mylinks')" :active="request()->routeIs('mylinks')">
                         {{ __('My Links') }}
                     </x-nav-link>
-                    <ul class="flex space-x-4">
+                    <ul class="flex space-x-4 py-5">
                         <li>
                             <a class="px-4 py-2 rounded-lg {{ request()->exists('popular') ? 'text-blue-500 hover:text-blue-700' : 'text-gray-500 cursor-not-allowed' }}" href="{{ request()->url() }}">Most recent</a>
                         </li>
                         <li>
                             <a class="px-4 py-2 rounded-lg {{ request()->exists('popular') ? 'text-gray-500 cursor-not-allowed' : 'text-blue-500 hover:text-blue-700' }}" href="?popular">Most popular</a>
                         </li>
-                    </ul>
-                </div>
+                        <li>
+                            </li>
+                        </ul>
+                        <form action="/dashboard" class="rounded-xl bg-slate-700" method="get">
+                            <input type="text" name="search" class="m-5 rounded-3xl p-1"><span class="rounded-3xl bg-white p-1"><input type="submit" value="🔎"></span>
+                        </form>
+                    </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -37,7 +42,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>{{ Auth::user()->name }} <img src="{{ asset('public/' . Auth::user()->image) }}" alt="Profile Image"></div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

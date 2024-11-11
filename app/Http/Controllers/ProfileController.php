@@ -32,9 +32,42 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        if ($request->hasFile('image')) {
+            // Obtiene el archivo subido
+            $image = $request->file('image');
+            
+            // Define el nombre único de la imagen (usando timestamp para evitar duplicados)
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            
+            // Define la ruta completa de destino para almacenar la imagen
+            $destinationPath = public_path('profile-images');
+            // Asegúrate de que la carpeta exista
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true); // Crea la carpeta con permisos de escritura
+            }
+            
+            // Mueve el archivo a la carpeta especificada en public/profile-images
+            $image->move($destinationPath, $imageName);
+            
+            // Obtén la ruta relativa (para almacenar en la base de datos o para mostrar la imagen)
+            $path = 'profile-images/' . $imageName;
+            
+            // Guarda la ruta en el usuario
+            $user = $request->user();
+            $user->image = $path;
+            // dd($user->$path);
+            // $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+            $user->save();
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    
+            
+            // return redirect()->back()->with('success', 'Imagen guardada correctamente.');
+            }
+            
+            return redirect()->back()->withErrors('No se ha subido ninguna imagen.');
+
+       
     }
 
     /**

@@ -22,10 +22,13 @@ class CommunityLinkController extends Controller
     {
         if ($channel != null) {
             $links = (new CommunityLinkQuery())->getByChannel($channel);
-            
+
         } else {
             if (request()->exists('popular')) {
                 $links = (new CommunityLinkQuery())->getMostPopular();
+            } else if (request()->exists("search")) {
+                $search = request("search");
+                $links = (new CommunityLinkQuery())->getSearch($search);
             } else {
                 $links = (new CommunityLinkQuery())->getAll();
             }
