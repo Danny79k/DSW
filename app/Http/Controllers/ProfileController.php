@@ -55,7 +55,7 @@ class ProfileController extends Controller
             // Guarda la ruta en el usuario
             $user = $request->user();
             $user->image = $path;
-            // dd($user->$path);
+
             // $request->user()->save();
 
             $user->save();
