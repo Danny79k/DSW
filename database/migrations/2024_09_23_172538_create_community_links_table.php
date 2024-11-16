@@ -16,7 +16,7 @@ return new class extends Migration {
 
             $table->bigInteger('user_id')->unsigned()->index();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->constrained()->cascadeOnDelete();;
 
             $table->bigInteger('channel_id')->unsigned()->index();
 
