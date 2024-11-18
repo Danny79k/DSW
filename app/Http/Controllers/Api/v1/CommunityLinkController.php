@@ -20,6 +20,9 @@ class CommunityLinkController extends Controller
         } else if (request()->exists("search")) {
             $search = request("search");
             $links = (new CommunityLinkQuery())->getSearch($search);
+        } else if (request()->exists("id")) {
+            $id = request('id');
+            $links = (new CommunityLinkQuery())->getSearch($id);
         } else {
             $links = (new CommunityLinkQuery())->getAll();
         }
