@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('mylinks')" :active="request()->routeIs('mylinks')">
                         {{ __('My Links') }}
                     </x-nav-link>
+                    @can('administrate', App\Models\User::class)
+                    <x-nav-link :href="route('users.index')"  :active="request()->routeIs('users')">
+                        {{ __('Admin') }}
+                    </x-nav-link>
+                    @endcan
                     <ul class="flex space-x-4 py-5">
                         <li>
                             <a class="px-4 py-2 rounded-lg {{ request()->exists('popular') ? 'text-blue-500 hover:text-blue-700' : 'text-gray-500 cursor-not-allowed' }}" href="{{ request()->url() }}">Most recent</a>
