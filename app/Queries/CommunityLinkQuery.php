@@ -29,9 +29,8 @@ class CommunityLinkQuery
         if ($links) return $links;
         return $links;
     }
-    public function getSearchById($id){
-        $links = CommunityLink::where('approved', 1)->where('id', 'like', 'id')->paginate(15);
-        if ($links) return $links;
+    public function getById(CommunityLink $communitylink){
+        $links = CommunityLink::where('id', $communitylink->id)->get();
         return $links;
     }
 }

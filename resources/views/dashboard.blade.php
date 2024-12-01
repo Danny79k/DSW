@@ -5,7 +5,10 @@
         </h2>
     </x-slot>
     <x-flash-message />
-    <div class="py-12">
+    <div class="py-12 text-white">
+        @if (session('token'))
+            <p>Token: {{ session('token') }}</p>
+        @endif
         <x-community-links :links="$links" :channels="$channels" />
     </div>
 </x-app-layout>
